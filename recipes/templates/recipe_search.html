@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container mx-auto mt-8">
+    <h1 class="text-3xl text-blue-600 font-semibold mb-4">Recipe Search</h1>
+    <form method="post" class="mb-4">
+        {% csrf_token %}
+        <div class="flex items-center space-x-4">
+            <input type="text" name="search_query" id="{{ form.search_query.id_for_label }}" class="w-64 p-2 border border-gray-800 rounded focus:outline-none focus:border-indigo-500" placeholder="Enter keywords">
+            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600">Search</button>
+        </div>
+    </form>
+
+    {% if recipes %}
+        <h2 class="text-2xl font-semibold mb-4">Search Results</h2>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {% for recipe in recipes %}
+                <li>
+                    <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold mb-2">{{ recipe.title }}</h3>
+                            <p class="h-20 overflow-hidden text-gray-800 text-sm">{{ recipe.description }}</p>
+                            <a href="{% url 'recipe_detail' recipe.id %}" class="mt-4 block bg-indigo-500 text-white py-2 px-4 rounded-full text-center hover:bg-indigo-600">View Recipe</a>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+{% endblock %}

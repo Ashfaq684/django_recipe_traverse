@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <div class="container mx-auto mt-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <h1 class="text-4xl text-green-800 font-semibold mb-4 text-center">{{ recipe.title }}</h1>
+            <div class="mx-auto w-full" style="max-width: 80%;">
+                <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="object-cover w-full h-auto rounded-lg shadow-lg">
+            </div>
+            <br>
+            <p class="text-xl text-gray-900">{{ recipe.description }}</p>
+            <h2 class="text-2xl text-red-600 font-semibold mt-4">Ingredients:</h2>
+            <p class="text-lg text-gray-900">{{ recipe.ingredients }}</p>
+            <h2 class="text-2xl text-orange-600 font-semibold mt-4">Instructions:</h2>
+            <p class="text-lg text-gray-900">{{ recipe.instructions }}</p>
+        </div>
+    </div>
+{% endblock %}

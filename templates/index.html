@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block body %}
+<div class="container mx-auto text-center mt-10">
+    <h1 class="text-4xl font-bold text-red-800 mb-4">Welcome to Recipe Traverse</h1>
+    <p class="text-gray-800 text-lg mb-8">Your go-to destination for discovering, sharing, and indulging in the culinary wonders of the world.</p>
+
+    <div class="mt-4">
+      <ul class="flex justify-center">
+        {% if user.is_authenticated %}
+          <li class="mr-2">
+            <a href="{% url 'submit_recipe' %}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Submit New Recipe</a>
+          </li>
+        {% else %}
+          <li class="mr-2">
+            <a href="{% url 'login' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login to Submit New Recipe</a>
+          </li>
+        {% endif %}
+    </div>
+
+    <br>
+
+    <div class="recipe-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for recipe in recipes %}
+        <div class="recipe-card border rounded-lg overflow-hidden hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+            <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="w-full h-40 object-cover">
+            <div class="bg-gray-50 p-4">
+              <h2 class="text-xl font-semibold text-indigo-800 mb-2">{{ recipe.title }}</h2>
+              <p class="h-20 overflow-hidden text-gray-800 text-sm">{{ recipe.description }}</p>
+              <br>
+              <a href="{% url 'recipe_detail' recipe.id %}" class="mt-4 block bg-indigo-500 text-white py-2 px-4 rounded-full text-center hover:bg-indigo-600">View Recipe</a>
+          </div>
+        </div>
+        {% endfor %}         
+    </div>
+</div>
+
+<div class="mt-4">
+    <ul class="flex justify-center">
+      {% if recipes.has_previous %}
+        <li class="mr-2">
+          <a href="?page=1" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">First</a>
+        </li>
+        <li class="mr-2">
+          <a href="?page={{ recipes.previous_page_number }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Previous</a>
+        </li>
+      {% endif %}
+      <li class="mr-2">
+        <span class="bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded">{{ recipes.number }}</span>
+      </li>
+      {% if recipes.has_next %}
+        <li class="mr-2">
+          <a href="?page={{ recipes.next_page_number }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next</a>
+        </li>
+        <li>
+          <a href="?page={{ recipes.paginator.num_pages }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Last</a>
+        </li>
+      {% endif %}
+    </ul>
+</div>
+{% endblock %}

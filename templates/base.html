@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>Recipe Traverse</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'img/core-img/favicon.ico' %}">
+
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+
+    <!-- Core Stylesheet -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body class="bg-gray-50">
+    <!-- Header Area Start -->
+    <header class="header-area">
+        <!-- Navbar Area -->
+            <div class="bg-gray-900 py-2">
+                <div class="container mx-auto flex items-center justify-between">
+                    <!-- Logo -->
+                    <a href="{% url 'home' %}">
+                        <img src="{% static 'img/core-img/logo_2.png' %}" alt="Recipe Traverse Logo" class="w-60 h-16">
+                    </a>
+
+                    <!-- Navbar Toggler -->
+                    <div class="md:hidden">
+                        <button id="mobile-menu-button" class="text-white p-2 focus:outline-none focus:bg-gray-600">
+                            <div class="h-6 w-6 bg-white mb-1"></div>
+                            <div class="h-6 w-6 bg-white mb-1"></div>
+                            <div class="h-6 w-6 bg-white"></div>
+                        </button>
+                    </div>
+
+                    <!-- Menu -->
+                    <nav class="hidden md:flex space-x-8">
+                        <ul>
+                            <li class="{% if request.path == '/' %}active{% endif %}">
+                                <a class="text-white hover:text-indigo-500 text-lg" href="{% url 'home' %}">Home</a>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li class="{% if request.path == '/' %}active{% endif %}">
+                                <a class="text-white hover:text-indigo-500 text-lg" href="{% url 'categories' %}">Categories</a>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li class="{% if request.path == '/' %}active{% endif %}">
+                                <a class="text-white hover:text-indigo-500 text-lg" href="{% url 'search' %}">Search</a>
+                            </li>
+                        </ul>
+                        {% if user.is_authenticated %}
+                        <ul>
+                            <li class="{% if request.path == '/' %}active{% endif %}">
+                                <a class="text-white hover:text-indigo-500 text-lg" href="{% url 'profile' %}">Profile</a>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li class="{% if request.path == '/' %}active{% endif %}">
+                                <a class="text-white hover:text-red-600 text-lg" href="{% url 'logout' %}">Logout</a>
+                            </li>
+                        </ul>
+                        {% else %}
+                        <ul>
+                            <li class="{% if request.path == '/' %}active{% endif %}">
+                                <a class="text-white hover:text-indigo-500 text-lg" href="{% url 'login' %}">Login</a>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li class="{% if request.path == '/' %}active{% endif %}">
+                                <a class="text-white hover:text-indigo-500 text-lg" href="{% url 'register' %}">Register</a>
+                            </li>
+                        </ul>
+                        {% endif %}
+                    </nav>
+                    
+                </div>
+            </div>
+
+    </header>
+    <!-- ##### Header Area End ##### -->
+
+    {% block body %}
+    {% endblock %}
+
+</body>
+
+</html>

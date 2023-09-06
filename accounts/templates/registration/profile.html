@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container mx-auto mt-8">
+    <h1 class="text-3xl font-semibold mb-4">Welcome, {{ profile.user.username }}!</h1>
+    <p class="text-lg text-gray-600 mb-4">Email: {{ profile.user.email }}</p>
+
+    <div class="mt-8">
+        <a href="{% url 'submit_recipe' %}" class="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600">Submit New Recipe</a>
+    </div>
+    <br>
+    <h2 class="text-2xl font-semibold mb-4">Your Recipes:</h2>
+
+    <!-- Card View for Recipes -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {% for recipe in user_recipes %}
+            <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold mb-2">{{ recipe.title }}</h3>
+                    <p class="h-20 overflow-hidden text-gray-800 text-sm">{{ recipe.description }}</p>
+                </div>
+                <div class="bg-gray-50 p-3">
+                    <a href="{% url 'recipe_detail' recipe.id %}" class="text-gray-800 hover:text-gray-900 px-2 py-1 rounded-lg bg-blue-300 hover:bg-blue-400 transition duration-300">View Recipe</a>
+                    <a href="{% url 'recipe_edit' recipe.id %}" class="ml-2 text-gray-800 hover:text-gray-900 px-2 py-1 rounded-lg bg-red-300 hover:bg-red-400 transition duration-300">Edit</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="mt-4">
+    <ul class="flex justify-center">
+        {% if user_recipes.has_previous %}
+        <li class="mr-2">
+            <a href="?page=1" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">First</a>
+        </li>
+        <li class="mr-2">
+            <a href="?page={{ user_recipes.previous_page_number }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Previous</a>
+        </li>
+        {% endif %}
+        <li class="mr-2">
+            <span class="bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded">{{ user_recipes.number }}</span>
+        </li>
+        {% if user_recipes.has_next %}
+        <li class="mr-2">
+            <a href="?page={{ user_recipes.next_page_number }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next</a>
+        </li>
+        <li>
+            <a href="?page={{ user_recipes.paginator.num_pages }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Last</a>
+        </li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}
